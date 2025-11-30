@@ -18,7 +18,7 @@ const int centerX = EPD_WIDTH / 2;
 const int centerY = EPD_HEIGHT / 2;
 
 // バッファメモリ
-unsigned char imageBuffer[EPD_ARRAY];
+unsigned char Image[EPD_ARRAY];
 
 // ==========================================
 // 時計ロジック
@@ -67,8 +67,8 @@ void drawHands(int hours, int minutes)
 
 void updateClock(struct tm *info)
 {
-	Paint_NewImage(imageBuffer, EPD_WIDTH, EPD_HEIGHT, 0, WHITE);
-	Paint_SelectImage(imageBuffer);
+	Paint_NewImage(Image, EPD_WIDTH, EPD_HEIGHT, 0, WHITE);
+	Paint_SelectImage(Image);
 	Paint_Clear(WHITE);
 
 	// 描画処理
@@ -76,9 +76,13 @@ void updateClock(struct tm *info)
 	drawHands(info->tm_hour, info->tm_min);
 
 	EPD_Init();
-	EPD_Display_BW(imageBuffer);
+	EPD_Display_BW(Image);
+
+	Paint_Clear(WHITE);
+	EPD_Display_RW(Image);
 
 	EPD_DeepSleep(); // 省電力モードへ
+	delay(1000);
 }
 
 // ==========================================
@@ -120,9 +124,7 @@ void setup()
 
 	// imageBuffer = (unsigned char *)malloc(EPD_ARRAY);
 
-	EPD_Init();
-	EPD_WhiteScreen_Black();
-	EPD_DeepSleep();
+	updateClock(&timeinfo);
 }
 
 int prevMin = -1;
