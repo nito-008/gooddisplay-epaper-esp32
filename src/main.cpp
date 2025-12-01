@@ -18,7 +18,8 @@ const int centerX = EPD_WIDTH / 2;
 const int centerY = EPD_HEIGHT / 2;
 
 // バッファメモリ
-unsigned char Image[EPD_ARRAY];
+unsigned char *Image;
+unsigned char *BaseImage;
 
 // ==========================================
 // 時計ロジック
@@ -65,23 +66,35 @@ void drawHands(int hours, int minutes)
 	Paint_DrawCircle(centerX, centerY, 8, BLACK, DRAW_FILL_FULL, DOT_PIXEL_1X1);
 }
 
-void updateClock(struct tm *info)
+void updateClock(struct tm *info, DISPLAY_MODE mode)
 {
 	Paint_NewImage(Image, EPD_WIDTH, EPD_HEIGHT, 0, WHITE);
 	Paint_SelectImage(Image);
 	Paint_Clear(WHITE);
 
 	// 描画処理
-	drawClockFace();
+	if (mode == NORMAL)
+	{
+		drawClockFace();
+	}
+
 	drawHands(info->tm_hour, info->tm_min);
 
-	EPD_Init();
-	EPD_Display_BW(Image);
+	if (mode == NORMAL)
+	{
+		EPD_Init();
+		EPD_Display_BW(Image);
 
-	Paint_Clear(WHITE);
-	EPD_Display_RW(Image);
+		Paint_Clear(WHITE);
+		EPD_Display_RW(Image);
+	}
+	else
+	{
+		EPD_Init_Part();
+		EPD_Dis_Part(0, 0, Image, EPD_HEIGHT, EPD_WIDTH);
+	}
 
-	EPD_DeepSleep(); // 省電力モードへ
+	EPD_Standby(); // 省電力モードへ
 	delay(1000);
 }
 
@@ -122,9 +135,17 @@ void setup()
 	}
 	Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 
-	// imageBuffer = (unsigned char *)malloc(EPD_ARRAY);
+	Image = (unsigned char *)malloc(EPD_ARRAY);
+	BaseImage = (unsigned char *)malloc(EPD_ARRAY);
 
-	updateClock(&timeinfo);
+	Paint_NewImage(BaseImage, EPD_WIDTH, EPD_HEIGHT, 0, WHITE);
+	Paint_SelectImage(BaseImage);
+	Paint_Clear(WHITE);
+
+	EPD_Init();
+	EPD_SetRAMValue_BaseMap(BaseImage, BaseImage);
+
+	updateClock(&timeinfo, NORMAL);
 }
 
 int prevMin = -1;
@@ -143,7 +164,7 @@ void loop()
 	if (timeinfo.tm_min != prevMin)
 	{
 		Serial.println("Updating Clock...");
-		updateClock(&timeinfo);
+		updateClock(&timeinfo, timeinfo.tm_min % 30 == 0 ? NORMAL : PARTIAL);
 		prevMin = timeinfo.tm_min;
 	}
 

@@ -11,11 +11,12 @@ void EPD_Init_180(void);
 void EPD_WhiteScreen_ALL(const unsigned char *datas);
 void EPD_WhiteScreen_White(void);
 void EPD_WhiteScreen_Black(void);
+void EPD_Standby(void);
 void EPD_DeepSleep(void);
 void EPD_Update(void);
 // Partial update display
 void EPD_Init_Part(void);
-void EPD_SetRAMValue_BaseMap(const unsigned char *datas);
+void EPD_SetRAMValue_BaseMap(const unsigned char *datasBW, const unsigned char *datasRW);
 void EPD_Dis_PartAll(const unsigned char *datas);
 void EPD_Dis_Part(unsigned int x_start, unsigned int y_start, const unsigned char *datas, unsigned int PART_COLUMN, unsigned int PART_LINE);
 void EPD_Dis_Part_Time(unsigned int x_start, unsigned int y_start,
