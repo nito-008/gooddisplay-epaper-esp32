@@ -72,29 +72,36 @@ void updateClock(struct tm *info, DISPLAY_MODE mode)
 	Paint_SelectImage(Image);
 	Paint_Clear(WHITE);
 
-	// 描画処理
-	if (mode == NORMAL)
-	{
-		drawClockFace();
-	}
+	// EPD_Init_Part();
+	// EPD_Dis_Part(0, 0, Image, EPD_HEIGHT, EPD_WIDTH);
 
+	// 描画処理
+
+	drawClockFace();
 	drawHands(info->tm_hour, info->tm_min);
 
-	if (mode == NORMAL)
-	{
-		EPD_Init();
-		EPD_Display_BW(Image);
+	// if (mode == NORMAL)
+	//{
+	//	EPD_Init();
+	//	EPD_Display_BW(Image);
+	//
+	//	Paint_Clear(WHITE);
+	//	EPD_Display_RW(Image);
+	//}
+	// else
+	//{
+	//	EPD_Init_Part();
+	//	EPD_Dis_Part(0, 0, Image, EPD_HEIGHT, EPD_WIDTH);
+	//}
 
-		Paint_Clear(WHITE);
-		EPD_Display_RW(Image);
-	}
-	else
-	{
-		EPD_Init_Part();
-		EPD_Dis_Part(0, 0, Image, EPD_HEIGHT, EPD_WIDTH);
-	}
+	EPD_Init();
+	EPD_Display_BW(Image);
 
-	EPD_Standby(); // 省電力モードへ
+	Paint_Clear(WHITE);
+	EPD_Display_RW(Image);
+
+	// EPD_Standby();
+	EPD_DeepSleep();
 	delay(1000);
 }
 
@@ -138,12 +145,12 @@ void setup()
 	Image = (unsigned char *)malloc(EPD_ARRAY);
 	BaseImage = (unsigned char *)malloc(EPD_ARRAY);
 
-	Paint_NewImage(BaseImage, EPD_WIDTH, EPD_HEIGHT, 0, WHITE);
-	Paint_SelectImage(BaseImage);
-	Paint_Clear(WHITE);
-
-	EPD_Init();
-	EPD_SetRAMValue_BaseMap(BaseImage, BaseImage);
+	// Paint_NewImage(BaseImage, EPD_WIDTH, EPD_HEIGHT, 0, WHITE);
+	// Paint_SelectImage(BaseImage);
+	// Paint_Clear(WHITE);
+	//
+	// EPD_Init();
+	// EPD_SetRAMValue_BaseMap(BaseImage, BaseImage);
 
 	updateClock(&timeinfo, NORMAL);
 }
