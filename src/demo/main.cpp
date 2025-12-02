@@ -92,7 +92,7 @@ void loop()
 
 #endif
 
-#if 1 // GUI Demo(GUI examples can display points, lines, rectangles, circles, letters, numbers, etc).
+#if 0 // GUI Demo(GUI examples can display points, lines, rectangles, circles, letters, numbers, etc).
 	// Data initialization settings.
 	Paint_NewImage(BlackImage, EPD_WIDTH, EPD_HEIGHT, 0, WHITE); // Set canvas parameters, GUI image rotation, please change 270 to 0/90/180/270.
 	Paint_SelectImage(BlackImage);															 // Select current settings.
@@ -140,11 +140,14 @@ void loop()
 
 #endif
 	// Clear
-#if 0 // human
-    EPD_Init(); //Full screen update initialization.
-    EPD_WhiteScreen_ALL(gImage_HUMAN, gImage_NULL); //Clear screen function.
-    EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-    delay(1000); //Delay for 3s.
+#if 1					// human
+	EPD_Init(); // Full screen update initialization.
+	// EPD_WhiteScreen_ALL(gImage_HUMAN, gImage_NULL);
+	// EPD_WhiteScreen_ALL(gImage_BIRD_BINARY, gImage_NULL);
+	// EPD_WhiteScreen_ALL(gImage_BIRD_FLOYD_STEINBERG, gImage_NULL);
+	EPD_WhiteScreen_ALL(gImage_BIRD_ATKINSON, gImage_NULL);
+	EPD_DeepSleep(); // Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
+	delay(1000);		 // Delay for 3s.
 #endif
 	EPD_Init();
 	EPD_WhiteScreen_White();

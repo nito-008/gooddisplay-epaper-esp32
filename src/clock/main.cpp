@@ -143,7 +143,7 @@ void setup()
 	Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 
 	Image = (unsigned char *)malloc(EPD_ARRAY);
-	BaseImage = (unsigned char *)malloc(EPD_ARRAY);
+	// BaseImage = (unsigned char *)malloc(EPD_ARRAY);
 
 	// Paint_NewImage(BaseImage, EPD_WIDTH, EPD_HEIGHT, 0, WHITE);
 	// Paint_SelectImage(BaseImage);
@@ -167,7 +167,6 @@ void loop()
 		return;
 	}
 
-	// 分が変わったときだけ更新
 	if (timeinfo.tm_min != prevMin)
 	{
 		Serial.println("Updating Clock...");
@@ -175,5 +174,5 @@ void loop()
 		prevMin = timeinfo.tm_min;
 	}
 
-	delay(1000); // 1秒ごとにチェック
+	delay(1000);
 }
