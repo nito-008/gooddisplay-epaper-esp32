@@ -43,11 +43,11 @@ void loop()
 #endif
 
 	/************Fast update mode(12s)*******************/
-#if 0 // Fast update demostration.	
-			EPD_Init_Fast(); //Fast update initialization.
-			EPD_WhiteScreen_ALL(gImage_BW2,gImage_RW2); //To Display one image using full screen update.
-			EPD_DeepSleep(); //Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
-			delay(3000); //Delay for 3s.
+#if 1																					 // Fast update demostration.
+	EPD_Init_Fast();														 // Fast update initialization.
+	EPD_WhiteScreen_ALL(gImage_BW2, gImage_RW2); // To Display one image using full screen update.
+	EPD_DeepSleep();														 // Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
+	delay(3000);																 // Delay for 3s.
 #endif
 #if 0 // Partial update demostration.
 	//Partial update demo support displaying a clock at 5 locations with 00:00.  
@@ -140,17 +140,18 @@ void loop()
 
 #endif
 	// Clear
-#if 1					// human
+#if 0 // human
 	EPD_Init(); // Full screen update initialization.
-	// EPD_WhiteScreen_ALL(gImage_HUMAN, gImage_NULL);
+							// EPD_WhiteScreen_ALL(gImage_HUMAN, gImage_NULL);
+	EPD_WhiteScreen_ALL(gImage_HUMAN_FLOYD_STEINBERG, gImage_NULL);
 	// EPD_WhiteScreen_ALL(gImage_BIRD_BINARY, gImage_NULL);
 	// EPD_WhiteScreen_ALL(gImage_BIRD_FLOYD_STEINBERG, gImage_NULL);
-	EPD_WhiteScreen_ALL(gImage_BIRD_ATKINSON, gImage_NULL);
+	// EPD_WhiteScreen_ALL(gImage_BIRD_ATKINSON, gImage_NULL);
 	EPD_DeepSleep(); // Enter the sleep mode and please do not delete it, otherwise it will reduce the lifespan of the screen.
 	delay(1000);		 // Delay for 3s.
 #endif
-	EPD_Init();
-	EPD_WhiteScreen_White();
+	// EPD_Init();
+	// EPD_WhiteScreen_White();
 	EPD_DeepSleep();
 	delay(3000);
 
